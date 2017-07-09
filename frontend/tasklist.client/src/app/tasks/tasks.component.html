@@ -1,0 +1,33 @@
+<div>
+    <div id="contentBarTop">
+        <p> Minhas tarefas </p>
+    </div>
+    <ngl-modal [(open)]="opened" [size]="size" [directional]="directional">
+        <div body>
+            <ngl-form-element label="Título" [error]="hasError ? error : null" class="slds-m-top--small">
+                <input nglFormControl [(ngModel)]="taskCurrent.title" type="text" placeholder="Informe o título..." [required]="required">
+            </ngl-form-element>
+            <p>Status</p>
+            <div [(nglPick)]="taskCurrent.taskStatus" nglPickActiveClass="slds-button--brand" class="slds-button-group" role="group">
+                <button type="button" nglButton="neutral" nglPickOption="OPENED">Aberto</button>
+                <button type="button" nglButton="neutral" nglPickOption="COMPLETED">Concluído</button>
+            </div>
+            <p>Início</p>
+            <ngl-datepicker [(date)]="taskCurrent.dateStart" class="slds-box slds-box--x-small"></ngl-datepicker>
+            <p>Atualização</p>
+            <ngl-datepicker [(date)]="taskCurrent.dateUpdate" class="slds-box slds-box--x-small"></ngl-datepicker>
+            <p>Remoção</p>
+            <ngl-datepicker [(date)]="taskCurrent.dateRemove" class="slds-box slds-box--x-small"></ngl-datepicker>
+            <p>Conclusão</p>
+            <ngl-datepicker [(date)]="taskCurrent.dateEnd" class="slds-box slds-box--x-small"></ngl-datepicker>
+        </div>
+        <template ngl-modal-footer>
+          <button class="slds-button slds-button--neutral" (click)="onCancel()">Cancelar</button>
+          <button class="slds-button slds-button--brand" (click)="onSaveConfirm()">Salvar</button>
+        </template>
+    </ngl-modal>
+    <ng2-smart-table class='form-control' [settings]="settings" [source]="source" (create)="onCreate($event)" (deleteConfirm)="onDeleteConfirm($event)" (edit)="onEdit($event)" noDataMessage="Nenhuma tarefa encontrada...">
+    </ng2-smart-table>
+
+
+</div>

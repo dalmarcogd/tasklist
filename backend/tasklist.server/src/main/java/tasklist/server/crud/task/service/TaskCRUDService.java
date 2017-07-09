@@ -66,7 +66,7 @@ public class TaskCRUDService extends AbstractCRUDService<TaskEntity, TaskDTO> {
     	dto.setDateUpdate(entity.getDateUpdate());
     	dto.setDateRemove(entity.getDateRemove());
     	dto.setDateEnd(entity.getDateEnd());
-    	dto.setIdUser(entity.getUser() != null? entity.getUser().getId() : null);
+//    	dto.setIdUser(entity.getUser() != null? entity.getUser().getId() : null);
         return dto;
     }
 

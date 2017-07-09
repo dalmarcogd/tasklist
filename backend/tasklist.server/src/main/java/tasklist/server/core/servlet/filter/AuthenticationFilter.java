@@ -14,6 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+
+import tasklist.server.core.spring.context.ManagerInstance;
+import tasklist.server.core.utils.StringUtils;
+import tasklist.server.crud.user.service.UserAuthenticationService;
 
 /**
  * Implementação de um filtro para autenticação.
@@ -25,18 +32,18 @@ public class AuthenticationFilter implements Filter {
 
     private Logger log = LogManager.getLogger(this.getClass());
 
-//    private UserAuthenticationService userAuthenticationService;
-//
-//    /**
-//     * Retorna o userAuthenticationService - {@link UserAuthenticationService}
-//     * @return {@link UserAuthenticationService}
-//     */
-//    public UserAuthenticationService getUserAuthenticationService() {
-//        if (userAuthenticationService == null) {
-//			userAuthenticationService = ManagerInstance.get(UserAuthenticationService.class);
-//		}
-//        return userAuthenticationService;
-//    }
+    private UserAuthenticationService userAuthenticationService;
+
+    /**
+     * Retorna o userAuthenticationService - {@link UserAuthenticationService}
+     * @return {@link UserAuthenticationService}
+     */
+    public UserAuthenticationService getUserAuthenticationService() {
+        if (userAuthenticationService == null) {
+			userAuthenticationService = ManagerInstance.get(UserAuthenticationService.class);
+		}
+        return userAuthenticationService;
+    }
 
     /**
      * Called by the web container to indicate to a filter that it is being
@@ -95,49 +102,49 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
 
-//        httpResponse.setHeader("Access-Control-Allow-Origin", "*");
-//        httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
-//        httpResponse.setHeader("Access-Control-Max-Age", "3600");
-//        httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-//        if (httpRequest.getMethod().equalsIgnoreCase("options")) {
-//            return;
-//        }
-//        if (!((httpRequest.getMethod().equalsIgnoreCase(HttpMethod.POST.name()) ||
-//        		httpRequest.getMethod().equalsIgnoreCase(HttpMethod.GET.name())) &&
-//                	httpRequest.getRequestURI().contains(new StringBuffer("auth")))){
-//            // Get the HTTP Authorization header from the request
-//            String authorizationHeader = httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
-//
-//            // Check if the HTTP Authorization header is present and formatted correctly
-//            if (authorizationHeader == null) {
-//                String origin = httpRequest.getHeader("Origin");
-//                httpResponse.sendRedirect(StringUtils.isNotBlank(origin)? origin + "/admin/login" : "/login");
-//                return;
-//            }
-//
-//            // Extract the token from the HTTP Authorization header
-//            String token = authorizationHeader.trim();
-//
-//            try {
-//                // Validate the token
-//                if (!validateToken(token)) {
-//
-//                    String origin = httpRequest.getHeader("Origin");
-//                    httpResponse.sendRedirect(StringUtils.isNotBlank(origin)? origin + "/login" : "/login");
-//                    return;
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                httpResponse.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
-//                return;
-//            }
-//        }
+        httpResponse.setHeader("Access-Control-Allow-Origin", "*");
+        httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
+        httpResponse.setHeader("Access-Control-Max-Age", "3600");
+        httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+        if (httpRequest.getMethod().equalsIgnoreCase("options")) {
+            return;
+        }
+        if (!((httpRequest.getMethod().equalsIgnoreCase(HttpMethod.POST.name()) ||
+        		httpRequest.getMethod().equalsIgnoreCase(HttpMethod.GET.name())) &&
+                	httpRequest.getRequestURI().contains(new StringBuffer("auth")))){
+            // Get the HTTP Authorization header from the request
+            String authorizationHeader = httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
+
+            // Check if the HTTP Authorization header is present and formatted correctly
+            if (authorizationHeader == null) {
+                String origin = httpRequest.getHeader("Origin");
+                httpResponse.sendRedirect(StringUtils.isNotBlank(origin)? origin + "/login" : "/login");
+                return;
+            }
+
+            // Extract the token from the HTTP Authorization header
+            String token = authorizationHeader.trim();
+
+            try {
+                // Validate the token
+                if (!validateToken(token)) {
+
+                    String origin = httpRequest.getHeader("Origin");
+                    httpResponse.sendRedirect(StringUtils.isNotBlank(origin)? origin + "/login" : "/login");
+                    return;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                httpResponse.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+                return;
+            }
+        }
         chain.doFilter(request, response);
     }
 
-//    private Boolean validateToken(String token) throws Exception {
-//        return getUserAuthenticationService().validToken(token);
-//    }
+    private Boolean validateToken(String token) throws Exception {
+        return getUserAuthenticationService().validToken(token);
+    }
 
     /**
      * Called by the web container to indicate to a filter that it is being

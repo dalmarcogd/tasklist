@@ -12,7 +12,6 @@ import tasklist.server.model.user.UserEntity;
  */
 public class TaskDTO extends BaseDTO {
 
-	private Long id;
 	private String title;
 	private String description;
 	private TaskStatus taskStatus = TaskStatus.OPENED;
@@ -21,24 +20,6 @@ public class TaskDTO extends BaseDTO {
 	private LocalDate dateRemove;
 	private LocalDate dateEnd;
     private Long idUser;
-
-    /**
-	 * Retorna uma instancia de {@link Long}
-	 * @return {@link Long}
-	 */
-	@Override
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * Atribui um {@link Long}
-	 * @param id - {@link Long}
-	 */
-	@Override
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	/**
 	 * Retorna uma instancia de {@link String}
