@@ -47,6 +47,8 @@ ext.commonsCollections4Version = '4.0'
 compileJava.options.encoding = 'ISO-8859-1'
 
 dependencies {
+	compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.9'
+
     compile "javax.servlet:javax.servlet-api:${javaxSservletApiVersion}"
     compile "org.apache.logging.log4j:log4j-core:${log4jCoreVersion}"
 

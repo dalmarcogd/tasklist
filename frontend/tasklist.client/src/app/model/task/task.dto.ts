@@ -6,7 +6,8 @@ import {BaseDTO} from "../base/base.dto";
 export class TaskDTO extends BaseDTO {
 
   title: string = null;
-  taskStatus: string = null;
+  description: string = null;
+  taskStatus: string = "OPENED";
   dateStart: Date = null;
   dateUpdate: Date = null;
   dateRemove: Date = null;

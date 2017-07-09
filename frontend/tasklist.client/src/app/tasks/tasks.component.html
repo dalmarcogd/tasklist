@@ -4,21 +4,26 @@
     </div>
     <ngl-modal [(open)]="opened" [size]="size" [directional]="directional">
         <div body>
-            <ngl-form-element label="Título" [error]="hasError ? error : null" class="slds-m-top--small">
+            <ngl-form-element [error]="hasError ? error : null" class="slds-m-top--small">
+                <p>Título:</p>
                 <input nglFormControl [(ngModel)]="taskCurrent.title" type="text" placeholder="Informe o título..." [required]="required">
             </ngl-form-element>
-            <p>Status</p>
+            <ngl-form-element [error]="hasError ? error : null" class="slds-m-top--small">
+                <template nglFormLabel>Descrição</template>
+                <textarea nglFormControl placeholder="Informe uma descrição..." [(ngModel)]="taskCurrent.description" [required]="required"></textarea>
+            </ngl-form-element>
+            <p>Status:</p>
             <div [(nglPick)]="taskCurrent.taskStatus" nglPickActiveClass="slds-button--brand" class="slds-button-group" role="group">
                 <button type="button" nglButton="neutral" nglPickOption="OPENED">Aberto</button>
                 <button type="button" nglButton="neutral" nglPickOption="COMPLETED">Concluído</button>
             </div>
-            <p>Início</p>
+            <p>Início:</p>
             <ngl-datepicker [(date)]="taskCurrent.dateStart" class="slds-box slds-box--x-small"></ngl-datepicker>
-            <p>Atualização</p>
+            <p>Atualização:</p>
             <ngl-datepicker [(date)]="taskCurrent.dateUpdate" class="slds-box slds-box--x-small"></ngl-datepicker>
-            <p>Remoção</p>
+            <p>Remoção:</p>
             <ngl-datepicker [(date)]="taskCurrent.dateRemove" class="slds-box slds-box--x-small"></ngl-datepicker>
-            <p>Conclusão</p>
+            <p>Conclusão:</p>
             <ngl-datepicker [(date)]="taskCurrent.dateEnd" class="slds-box slds-box--x-small"></ngl-datepicker>
         </div>
         <template ngl-modal-footer>

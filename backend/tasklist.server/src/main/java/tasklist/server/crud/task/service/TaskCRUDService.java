@@ -2,13 +2,18 @@ package tasklist.server.crud.task.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.WebRequest;
 
 import tasklist.server.crud.base.repository.AbstractCRUDRepository;
 import tasklist.server.crud.base.service.AbstractCRUDService;
 import tasklist.server.crud.task.repository.TaskCRUDRepository;
+import tasklist.server.crud.user.service.UserQueryService;
 import tasklist.server.model.base.BaseDTO;
 import tasklist.server.model.task.TaskDTO;
 import tasklist.server.model.task.TaskEntity;
+import tasklist.server.model.user.UserEntity;
 
 /**
  * Serviço de persistencia de {@link TaskEntity}
@@ -20,6 +25,8 @@ public class TaskCRUDService extends AbstractCRUDService<TaskEntity, TaskDTO> {
 
     @Autowired
     private TaskCRUDRepository userCRUDRepository;
+    @Autowired
+    private UserQueryService userQueryService;
 
     /**
      * {@inheritDoc}
@@ -46,6 +53,11 @@ public class TaskCRUDService extends AbstractCRUDService<TaskEntity, TaskDTO> {
     	entity.setDateUpdate(dto.getDateUpdate());
     	entity.setDateRemove(dto.getDateRemove());
     	entity.setDateEnd(dto.getDateEnd());
+    	String attribute = (String) RequestContextHolder.currentRequestAttributes().getAttribute("username", WebRequest.SCOPE_REQUEST);
+    	if (StringUtils.isEmpty(attribute)) {
+    		UserEntity userByUsername = userQueryService.getUserByUsername(attribute);
+    		entity.setUser(userByUsername);
+		}
         return entity;
     }
 

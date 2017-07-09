@@ -72,7 +72,6 @@ export class TasksComponent implements OnInit {
   onCreate(event: any): void {
     this.taskCurrent = new TaskDTO();
     this.opened = true;
-    console.log("oi");
   }
 
   onEdit(event: any): void {

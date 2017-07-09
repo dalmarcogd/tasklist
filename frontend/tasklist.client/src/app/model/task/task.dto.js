@@ -19,7 +19,8 @@ var TaskDTO = (function (_super) {
     function TaskDTO() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.title = null;
-        _this.taskStatus = null;
+        _this.description = null;
+        _this.taskStatus = "OPENED";
         _this.dateStart = null;
         _this.dateUpdate = null;
         _this.dateRemove = null;

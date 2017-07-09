@@ -17,8 +17,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.WebRequest;
 
 import tasklist.server.core.spring.context.ManagerInstance;
+import tasklist.server.core.utils.EncryptionUtil;
 import tasklist.server.core.utils.StringUtils;
 import tasklist.server.crud.user.service.UserAuthenticationService;
 
@@ -132,6 +135,8 @@ public class AuthenticationFilter implements Filter {
                     String origin = httpRequest.getHeader("Origin");
                     httpResponse.sendRedirect(StringUtils.isNotBlank(origin)? origin + "/login" : "/login");
                     return;
+                } else {
+                	RequestContextHolder.getRequestAttributes().setAttribute("username", getUsernameByToken(token), WebRequest.SCOPE_REQUEST);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -142,7 +147,19 @@ public class AuthenticationFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    private Boolean validateToken(String token) throws Exception {
+    /**
+	 *
+	 * <br />- <b>Data de criação:</b> 8 de jul de 2017
+	 * @return um {@link Object}
+	 * @param um {@link AuthenticationFilter}
+	 */
+	private Object getUsernameByToken(String token) {
+		byte[] decode64 = EncryptionUtil.decode64(token);
+		String string = new String(decode64);
+		return string.substring(0, string.indexOf("#"));
+	}
+
+	private Boolean validateToken(String token) throws Exception {
         return getUserAuthenticationService().validToken(token);
     }
 

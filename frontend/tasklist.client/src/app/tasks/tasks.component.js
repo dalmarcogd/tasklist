@@ -72,7 +72,6 @@ var TasksComponent = (function () {
     TasksComponent.prototype.onCreate = function (event) {
         this.taskCurrent = new task_dto_1.TaskDTO();
         this.opened = true;
-        console.log("oi");
     };
     TasksComponent.prototype.onEdit = function (event) {
         this.taskCurrent = event.data;

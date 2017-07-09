@@ -1,6 +1,6 @@
 package tasklist.server.model.task;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import tasklist.server.model.base.BaseDTO;
 import tasklist.server.model.user.UserEntity;
@@ -15,10 +15,10 @@ public class TaskDTO extends BaseDTO {
 	private String title;
 	private String description;
 	private TaskStatus taskStatus = TaskStatus.OPENED;
-	private LocalDate dateStart;
-	private LocalDate dateUpdate;
-	private LocalDate dateRemove;
-	private LocalDate dateEnd;
+	private Date dateStart;
+	private Date dateUpdate;
+	private Date dateRemove;
+	private Date dateEnd;
     private Long idUser;
 
 	/**
@@ -70,66 +70,66 @@ public class TaskDTO extends BaseDTO {
 	}
 
 	/**
-	 * Retorna uma instancia de {@link LocalDate}
-	 * @return {@link LocalDate}
+	 * Retorna uma instancia de {@link Date}
+	 * @return {@link Date}
 	 */
-	public LocalDate getDateStart() {
+	public Date getDateStart() {
 		return dateStart;
 	}
 
 	/**
-	 * Atribui um {@link LocalDate}
-	 * @param dateStart - {@link LocalDate}
+	 * Atribui um {@link Date}
+	 * @param dateStart - {@link Date}
 	 */
-	public void setDateStart(LocalDate dateStart) {
+	public void setDateStart(Date dateStart) {
 		this.dateStart = dateStart;
 	}
 
 	/**
-	 * Retorna uma instancia de {@link LocalDate}
-	 * @return {@link LocalDate}
+	 * Retorna uma instancia de {@link Date}
+	 * @return {@link Date}
 	 */
-	public LocalDate getDateUpdate() {
+	public Date getDateUpdate() {
 		return dateUpdate;
 	}
 
 	/**
-	 * Atribui um {@link LocalDate}
-	 * @param dateUpdate - {@link LocalDate}
+	 * Atribui um {@link Date}
+	 * @param dateUpdate - {@link Date}
 	 */
-	public void setDateUpdate(LocalDate dateUpdate) {
+	public void setDateUpdate(Date dateUpdate) {
 		this.dateUpdate = dateUpdate;
 	}
 
 	/**
-	 * Retorna uma instancia de {@link LocalDate}
-	 * @return {@link LocalDate}
+	 * Retorna uma instancia de {@link Date}
+	 * @return {@link Date}
 	 */
-	public LocalDate getDateRemove() {
+	public Date getDateRemove() {
 		return dateRemove;
 	}
 
 	/**
-	 * Atribui um {@link LocalDate}
-	 * @param dateRemove - {@link LocalDate}
+	 * Atribui um {@link Date}
+	 * @param dateRemove - {@link Date}
 	 */
-	public void setDateRemove(LocalDate dateRemove) {
+	public void setDateRemove(Date dateRemove) {
 		this.dateRemove = dateRemove;
 	}
 
 	/**
-	 * Retorna uma instancia de {@link LocalDate}
-	 * @return {@link LocalDate}
+	 * Retorna uma instancia de {@link Date}
+	 * @return {@link Date}
 	 */
-	public LocalDate getDateEnd() {
+	public Date getDateEnd() {
 		return dateEnd;
 	}
 
 	/**
-	 * Atribui um {@link LocalDate}
-	 * @param dateEnd - {@link LocalDate}
+	 * Atribui um {@link Date}
+	 * @param dateEnd - {@link Date}
 	 */
-	public void setDateEnd(LocalDate dateEnd) {
+	public void setDateEnd(Date dateEnd) {
 		this.dateEnd = dateEnd;
 	}
 
