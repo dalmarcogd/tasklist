@@ -23,9 +23,9 @@ public class TaskQueryService {
     private CriteriaFactory criteriaFactory;
 
     @Transactional(readOnly = true)
-    public List<TaskEntity> getTasksByUser(Long idUser) {
+    public List<TaskEntity> getTasksByUser(String username) {
         Criteria q = criteriaFactory.createCriteria(TaskEntity.class);
-        q.add(Restrictions.eq("user.id", idUser));
+        q.add(Restrictions.eq("user.username", username));
         return q.list();
     }
 }
