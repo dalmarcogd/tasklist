@@ -2,8 +2,8 @@ package tasklist.server.crud.task.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -65,8 +65,8 @@ public class TaskCRUDController extends AbstractCRUDController<TaskDTO, TaskEnti
      * @param id - {@link Long}
      * @return {@link ResponseEntity}
      */
-	@GetMapping("/{username}")
-    public @ResponseBody ResponseEntity<?> read(@PathVariable(value = "username") String username){
+	@GetMapping(params={"username"})
+    public @ResponseBody ResponseEntity<?> read(@RequestParam(value = "username") String username){
 		RequestContextHolder.getRequestAttributes().setAttribute("username", username, WebRequest.SCOPE_REQUEST);
         return ResponseEntity.ok(getService().convertAllToDTO(getTaskQueryService().getTasksByUser(username)));
     }

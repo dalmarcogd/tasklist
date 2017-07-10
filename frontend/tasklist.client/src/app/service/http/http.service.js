@@ -50,45 +50,65 @@ var HttpService = (function () {
     /**
      * Realiza um put no endereço especificado.
      */
-    HttpService.prototype.delete = function (url, data) {
+    HttpService.prototype.delete = function (url, data, params) {
         var _this = this;
         var headers = this.getConfigHeaders();
         var finalURL = this.formatURL(url);
         console.log('Method delete: ' + finalURL);
-        var options = new http_1.RequestOptions({ headers: headers, body: JSON.stringify(data) });
+        var options = new http_1.RequestOptions({ headers: headers, body: JSON.stringify(data), params: new URLSearchParams() });
+        if (!!params) {
+            params.forEach(function (value, key) {
+                options.params.set(key, value);
+            });
+        }
         return this.http.delete(http_constants_1.URL_SERVER + '' + url, options).toPromise().then(this.extractData).catch(function (e) { return _this.handleError(e); });
     };
     /**
      * Realiza um put no endereço especificado.
      */
-    HttpService.prototype.get = function (url, data) {
+    HttpService.prototype.get = function (url, data, params) {
         var _this = this;
         var headers = this.getConfigHeaders();
         var finalURL = this.formatURL(url);
         console.log('Method get: ' + finalURL);
-        var options = new http_1.RequestOptions({ headers: headers, body: JSON.stringify(data) });
+        var options = new http_1.RequestOptions({ headers: headers, body: JSON.stringify(data), params: new URLSearchParams() });
+        if (!!params) {
+            params.forEach(function (value, key) {
+                options.params.set(key, value);
+            });
+        }
         return this.http.get(http_constants_1.URL_SERVER + '' + url, options).toPromise().then(this.extractData).catch(function (e) { return _this.handleError(e); });
     };
     /**
      * Realiza um put no endereço especificado.
      */
-    HttpService.prototype.put = function (url, data) {
+    HttpService.prototype.put = function (url, data, params) {
         var _this = this;
         var headers = this.getConfigHeaders();
         var finalURL = this.formatURL(url);
         console.log('Method put: ' + finalURL);
-        var options = new http_1.RequestOptions({ headers: headers, body: JSON.stringify(data) });
+        var options = new http_1.RequestOptions({ headers: headers, body: JSON.stringify(data), params: new URLSearchParams() });
+        if (!!params) {
+            params.forEach(function (value, key) {
+                options.params.set(key, value);
+            });
+        }
         return this.http.put(http_constants_1.URL_SERVER + '' + url, { name: name }, options).toPromise().then(this.extractData).catch(function (e) { return _this.handleError(e); });
     };
     /**
      * Realiza um post no endereço especificado.
      */
-    HttpService.prototype.post = function (url, data) {
+    HttpService.prototype.post = function (url, data, params) {
         var _this = this;
         var headers = this.getConfigHeaders();
         var finalURL = this.formatURL(url);
         console.log('Method post: ' + finalURL);
-        var options = new http_1.RequestOptions({ headers: headers, body: JSON.stringify(data) });
+        var options = new http_1.RequestOptions({ headers: headers, body: JSON.stringify(data), params: new URLSearchParams() });
+        if (!!params) {
+            params.forEach(function (value, key) {
+                options.params.set(key, value);
+            });
+        }
         return this.http.post(finalURL, { name: name }, options).toPromise().then(this.extractData).catch(function (e) { return _this.handleError(e); });
     };
     HttpService.prototype.getConfigHeaders = function () {

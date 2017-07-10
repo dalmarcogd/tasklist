@@ -6,6 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var token_service_1 = require("./../service/token/token.service");
 var service_locator_1 = require("./../service/locator/service.locator");
 var http_service_1 = require("./../service/http/http.service");
 var core_1 = require("@angular/core");
@@ -19,11 +20,18 @@ var TasksService = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(TasksService.prototype, "tokenService", {
+        get: function () {
+            return service_locator_1.ServiceLocator.get(token_service_1.TokenService);
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Listar todas as tarefas.
      */
     TasksService.prototype.list = function () {
-        return this.httpService.get('/tasks', null);
+        return this.httpService.get('/tasks', null, new Map([["username", this.tokenService.getToken().username]]));
     };
     /**
      * Deletar uma tarefa.

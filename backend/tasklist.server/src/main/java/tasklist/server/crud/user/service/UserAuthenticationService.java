@@ -1,5 +1,8 @@
 package tasklist.server.crud.user.service;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,7 @@ public class UserAuthenticationService {
 
     @Autowired
     private UserQueryService userQueryService;
+    private ConcurrentMap<String, Credentials> mapCacheToken = new ConcurrentHashMap<>();
 
     /**
      * Autentica o usuario com as credenciais recebidas, gerando um {@link UserTokenEntity} e retornando o mesmo.
@@ -33,6 +37,7 @@ public class UserAuthenticationService {
             String username = credentials.getUsername();
 			tokenDTO.setToken(generateToken(username, credentials.getPassword()));
             tokenDTO.setUsername(username);
+            mapCacheToken.put(tokenDTO.getToken(), credentials);
 			return tokenDTO;
         }
         throw new ValidationException("Login ou senha incorretos.");
@@ -50,18 +55,7 @@ public class UserAuthenticationService {
      */
     @Transactional(rollbackFor = Throwable.class)
     public Boolean validToken(String token) throws ValidationException {
-//        List<UserActivityEntity> activities = userActivityQueryService.getActivities(userTokenEntity);
-//        activities.sort((o1, o2) -> CompareUtils.compare(o1.getDateTime(), o2.getDateTime()));
-//        UserActivityEntity lastUserActivity = activities.get(activities.size()-1);
-//
-//        LocalDateTime now = LocalDateTime.now();
-//        LocalDateTime last = lastUserActivity.getDateTime();
-//        Long diff = last.until(now, ChronoUnit.MINUTES);
-//        // the last activity has between larger 15 minutes, then generate new token
-//        if (diff > 15) {
-//            return false;
-//        }
-        return true;
+        return mapCacheToken.containsKey(token);
     }
 
     /**
@@ -72,5 +66,12 @@ public class UserAuthenticationService {
      */
     public String generateToken(String username, String password) throws Exception {
     	return EncryptionUtil.encodeMD5(username+"#"+password);
+    }
+
+    /**
+     * REtorna as credenciais do token.
+     */
+    public Credentials getCredentials(String token) {
+    	return this.mapCacheToken.get(token);
     }
 }

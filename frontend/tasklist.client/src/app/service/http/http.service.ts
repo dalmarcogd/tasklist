@@ -36,44 +36,65 @@ export class HttpService {
   /**
    * Realiza um put no endereço especificado.
    */
-  public delete(url: string, data: any): Promise<any> {
+  public delete(url: string, data: any, params?: Map<string, any>): Promise<any> {
     let headers = this.getConfigHeaders();
     let finalURL = this.formatURL(url);
     console.log('Method delete: ' + finalURL);
-    let options = new RequestOptions({ headers: headers, body: JSON.stringify(data) });
+    let options = new RequestOptions({ headers: headers, body: JSON.stringify(data), params: new URLSearchParams() });
+    if(!!params) {
+      params.forEach((value: any, key: string) => {
+        options.params.set(key, value);
+      }); 
+    }
     return this.http.delete(URL_SERVER + '' + url, options).toPromise().then(this.extractData).catch((e) => this.handleError(e));
   }
 
   /**
    * Realiza um put no endereço especificado.
    */
-  public get(url: string, data?: any): Promise<any> {
+  public get(url: string, data?: any, params?: Map<string, any>): Promise<any> {
     let headers = this.getConfigHeaders();
     let finalURL = this.formatURL(url);
     console.log('Method get: ' + finalURL);
-    let options = new RequestOptions({ headers: headers, body: JSON.stringify(data) });
+    let options = new RequestOptions({ headers: headers, body: JSON.stringify(data), params: new URLSearchParams() });
+    if(!!params) {
+      params.forEach((value: any, key: string) => {
+        options.params.set(key, value);
+      }); 
+    }
     return this.http.get(URL_SERVER + '' + url, options).toPromise().then(this.extractData).catch((e) => this.handleError(e));
   }
 
   /**
    * Realiza um put no endereço especificado.
    */
-  public put(url: string, data: any): Promise<any> {
+  public put(url: string, data: any, params?: Map<string, any>): Promise<any> {
     let headers = this.getConfigHeaders();
     let finalURL = this.formatURL(url);
     console.log('Method put: ' + finalURL);
-    let options = new RequestOptions({ headers: headers, body: JSON.stringify(data) });
+    let options = new RequestOptions({ headers: headers, body: JSON.stringify(data), params: new URLSearchParams() });
+    if(!!params) {
+      params.forEach((value: any, key: string) => {
+        options.params.set(key, value);
+      }); 
+    }
+
     return this.http.put(URL_SERVER + '' + url, { name }, options).toPromise().then(this.extractData).catch((e) => this.handleError(e));
   }
 
   /**
    * Realiza um post no endereço especificado.
    */
-  public post(url: string, data: any): Promise<any> {
+  public post(url: string, data: any, params?: Map<string, any>): Promise<any> {
     let headers = this.getConfigHeaders();
     let finalURL = this.formatURL(url);
     console.log('Method post: ' + finalURL);
-    let options = new RequestOptions({ headers: headers, body: JSON.stringify(data) });
+    let options = new RequestOptions({ headers: headers, body: JSON.stringify(data), params: new URLSearchParams() });
+    if(!!params) {
+      params.forEach((value: any, key: string) => {
+        options.params.set(key, value);
+      }); 
+    }
     return this.http.post(finalURL, { name }, options).toPromise().then(this.extractData).catch((e) => this.handleError(e));
   }
 

@@ -1,3 +1,4 @@
+import { TokenService } from './../service/token/token.service';
 import { TaskDTO } from './../model/task/task.dto';
 import { Http } from '@angular/http';
 import { ServiceLocator } from './../service/locator/service.locator';
@@ -11,11 +12,15 @@ export class TasksService {
         return ServiceLocator.get(HttpService);
     }
 
+    private get tokenService() : TokenService {
+        return ServiceLocator.get(TokenService);
+    }
+
     /**
      * Listar todas as tarefas.
      */
     public list() : Promise<TaskDTO[]> {
-        return this.httpService.get('/tasks', null);
+        return this.httpService.get('/tasks', null, new Map([["username", this.tokenService.getToken().username]]));
     }
 
     /**

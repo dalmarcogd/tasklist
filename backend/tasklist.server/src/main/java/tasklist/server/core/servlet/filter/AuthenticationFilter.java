@@ -17,9 +17,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.context.request.async.StandardServletAsyncWebRequest;
 
 import tasklist.server.core.spring.context.ManagerInstance;
-import tasklist.server.core.utils.StringUtils;
 import tasklist.server.crud.user.service.UserAuthenticationService;
 
 /**
@@ -118,7 +120,7 @@ public class AuthenticationFilter implements Filter {
             // Check if the HTTP Authorization header is present and formatted correctly
             if (authorizationHeader == null) {
                 String origin = httpRequest.getHeader("Origin");
-                httpResponse.sendRedirect(StringUtils.isNotBlank(origin)? origin + "/login" : "/login");
+                httpResponse.sendRedirect(origin != null && !origin.isEmpty()? origin + "/login" : "/login");
                 return;
             }
 
@@ -130,9 +132,11 @@ public class AuthenticationFilter implements Filter {
                 if (!validateToken(token)) {
 
                     String origin = httpRequest.getHeader("Origin");
-                    httpResponse.sendRedirect(StringUtils.isNotBlank(origin)? origin + "/login" : "/login");
+                    httpResponse.sendRedirect(origin != null && !origin.isEmpty()? origin + "/login" : "/login");
                     return;
                 }
+                RequestContextHolder.setRequestAttributes(new StandardServletAsyncWebRequest(httpRequest, httpResponse), true);
+                RequestContextHolder.getRequestAttributes().setAttribute("token", token, WebRequest.SCOPE_REQUEST);
             } catch (Exception e) {
                 e.printStackTrace();
                 httpResponse.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
